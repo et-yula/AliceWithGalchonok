@@ -55,7 +55,9 @@ public abstract class Animal implements AbleToMove, BeSomewhere, AbleToMakeSound
         }
     }
     public void setSurroundingAnimals(Animal animal){
-        surroundingAnimals.add(animal);
+        if (this.ToBeTogether(animal)){
+            surroundingAnimals.add(animal);
+        }
     }
     public Animal getSurroundingAnimal(int index){
         return this.surroundingAnimals.get(index);
