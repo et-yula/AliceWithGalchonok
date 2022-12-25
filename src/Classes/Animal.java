@@ -1,17 +1,34 @@
 package Classes;
 
-import Enums.Adjective;
-import Enums.Adverb;
-import Enums.Conjunction;
+import Exceptions.HeroDeathException;
 import Interfaces.*;
 
-public abstract class Animal implements AbleToMove, BeSomewhere, AbleToMakeSound, AbleToEat {
-    protected String name;
-    protected String location;
+import java.util.ArrayList;
 
-    @Override
-    public void eat(Object meal){
-        System.out.println(this.toString()+" съело "+meal.toString());
+public abstract class Animal implements AbleToMove, BeSomewhere, AbleToMakeSound, AbleToHunt{
+    protected String name;
+    protected ArrayList <Animal>surroundingAnimals = new ArrayList<>();
+    protected int weight;
+    protected long length;
+    protected String location;
+    public static class BMI{
+        public static final int BMI=20;
+        public static int getWeight(long length) {
+            return (int) Math.round(BMI*Math.pow(length,2));
+        }
+    }
+    public boolean killAndEat(Animal animal){
+        if (animal.length<this.length){
+            this.weight=this.weight+animal.weight;
+            System.out.println(this.toString()+" съела "+animal.toString()+ " и поправилась на "+animal.weight+" килограмм");
+            animal=null;
+            throw new HeroDeathException("Кое-кого съели.. ");
+        } else {
+            return false;}
+    }
+
+    public void eat(Object meal) {
+        System.out.println(this.toString() + " съело" + meal.toString());
     }
     @Override
     public void makeSound() {
@@ -36,6 +53,12 @@ public abstract class Animal implements AbleToMove, BeSomewhere, AbleToMakeSound
         } else {
             return false;
         }
+    }
+    public void setSurroundingAnimals(Animal animal){
+        surroundingAnimals.add(animal);
+    }
+    public Animal getSurroundingAnimal(int index){
+        return this.surroundingAnimals.get(index);
     }
 
     @Override
